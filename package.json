@@ -14,6 +14,7 @@
     "lint": "eslint src",
     "lintfix": "eslint src --fix",
     "testonly": "mocha --require .scripts/mocha_runner src/**/tests/**/*.js",
+    "test:w": "mocha --require .scripts/mocha_runner src/**/tests/**/*.js -w",
     "test": "npm run lint && npm run testonly",
     "test:cover": "istanbul cover  _mocha -- --require .scripts/mocha_runner -R spec src/**/tests/**/*.js",
     "check-coverage": "istanbul check-coverage --statements 20 --branches 20 --functions 20 --lines 20",
@@ -25,6 +26,9 @@
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
+    },
+    "ghooks": {
+      "pre-commit": "npm run lintfix"
     }
   },
   "dependencies": {
