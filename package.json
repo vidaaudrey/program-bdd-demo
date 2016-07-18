@@ -25,10 +25,6 @@
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
-    },
-    "ghooks": {
-      "pre-commit": "npm run test:cover && npm run check-coverage",
-      "post-commit": "npm run report-coverage"
     }
   },
   "dependencies": {
