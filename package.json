@@ -8,6 +8,7 @@
   },
   "main": "dist/index.js",
   "scripts": {
+    "postinstall": "node .scripts/env.config.js",
     "commit": "git-cz",
     "prepublish": ". ./.scripts/prepublish.sh",
     "lint": "eslint src",
@@ -16,7 +17,7 @@
     "test": "npm run lint && npm run testonly",
     "test:cover": "istanbul cover  _mocha -- --require .scripts/mocha_runner -R spec src/**/tests/**/*.js",
     "check-coverage": "istanbul check-coverage --statements 20 --branches 20 --functions 20 --lines 20",
-    "report-coverage": "codecov -t process.env.CODECOV",
+    "report-coverage": "codecov",
     "storybook": "start-storybook -p 9010",
     "publish-storybook": "bash .scripts/publish_storybook.sh",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
@@ -32,6 +33,7 @@
   },
   "dependencies": {
     "babel-runtime": "^6.5.0",
+    "dotenv": "^2.0.0",
     "redux": "^3.5.2"
   },
   "devDependencies": {

@@ -3,6 +3,6 @@ const helloWorld = () => {
 };
 
 module.exports = {
-  helloWorld
+  helloWorld,
 };
 // export default { helloWorld };

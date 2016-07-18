@@ -49,9 +49,9 @@ npm install codecov -D
 ```
  To be able to see the report at codecov, we'll need to push the repo to github first, then visit [https://codecov.io/gh/vidaaudrey/program-bdd-demo](https://codecov.io/gh/vidaaudrey/program-bdd-demo) to get the repository token (remember to change the repo name to yours).
 
- To store the token in the node env, run `export CODECOV=[your repo token]`, then add below script to package.json to upload the coverage report to codecov.
+ To store the token in the node env, run `export CODECOV-TOKEN=[your repo token]`, then add below script to package.json to upload the coverage report to codecov.
  ```
- "report-coverage": "codecov -t process.env.CODECOV"
+ "report-coverage": "codecov"
  ```
 
 ## 03. Semantic Release, Git Commit Hook, Commitizen
@@ -78,3 +78,14 @@ We'll also replace `git commit` command with `git-cz` which will use commitizen 
 - Fill the commit type, scope, breaking changes, etc. Semantic Release will help manage the versions based on the changes. If there is any breaking changes, Semantic Release will bump the major version.
 - Ghooks will run the coverage test, and if the tests doesn't meet the minimum requirements on statements, function, branches, and lines, the commit will not be successful.
 - Once the commit is successful, we'll upload the coverage report to codecov for further analysis.
+
+## 04. Use DotEnv to manage environment variables
+As the project grows, we'll need a better strategy to manage the environment variables. [dotenv](https://www.npmjs.com/package/dotenv) is very good option for this purpose.  
+Add add below script to npm so we can setup the environment variable as early:
+```
+"postinstall": "node .scripts/env.config.js",
+```
+Now install the dotenv package:
+```
+npm install dotenv -S
+```
