@@ -1,4 +1,8 @@
 # Program BDD Demo
+[![travis build](https://img.shields.io/travis/vidaaudrey/program-bdd-demo.svg?style=flat-square)](https://travis-ci.org/vidaaudrey/program-bdd-demo)
+[![codecov coverage](https://img.shields.io/codecov/c/github/vidaaudrey/program-bdd-demo.svg?style=flat-square)](https://codecov.io/github/vidaaudrey/program-bdd-demo)
+[![version](https://img.shields.io/npm/v/program-bdd-demo.svg?style=flat-square)](http://npm.im/program-bdd-demo)
+
 
 A demo app using storybook, cucumber.js, selenium, redux, relay and some other latest technologies.
 
