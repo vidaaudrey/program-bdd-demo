@@ -37,14 +37,44 @@ Note you'll need to add 'webpack-hot-middleware' as devDependencies as it's miss
 ## 02. Setup Coverage Reporting
 For coverage reporting, I use [Istanbul](https://github.com/gotwarlost/istanbul). Istanbul is a coverage tool that computes statement, line, function and branch coverage with module loader hooks to transparently add coverage when running tests. It supports all JS coverage use cases including unit tests, server side functional tests and browser tests
 
-Note since we are use babel 6x and node 6x version, however the latest Istanbul release 0.4.4 doesn't work well with babel 6x and node 6x version. So we'll have to manually install the alpha version of Istanbul.
+Note the latest Istanbul release 0.4.4 doesn't work well with babel 6x and node 6x version. So we'll have to manually install the alpha version of Istanbul.
 ```
 npm install istanbul@^1.0.0-alpha -D
 ```
 
-To have a visual view of the coverage, I'll use codecov.
+To have a visual view of the coverage, I'll use codecov. Codecov is an online tool for gathering and analyzing the coverage reports.
 ```
 npm install codecov -D
-```
 
-To be able to see the report at codecov, first push the repo to github, then go to [https://codecov.io/gh/vidaaudrey/program-bdd-demo](https://codecov.io/gh/vidaaudrey/program-bdd-demo) and get the repository token (remember to change the repo name to yours).
+```
+ To be able to see the report at codecov, we'll need to push the repo to github first, then visit [https://codecov.io/gh/vidaaudrey/program-bdd-demo](https://codecov.io/gh/vidaaudrey/program-bdd-demo) to get the repository token (remember to change the repo name to yours).
+
+ To store the token in the node env, run `export CODECOV=[your repo token]`, then add below script to package.json to upload the coverage report to codecov.
+ ```
+ "report-coverage": "codecov -t process.env.CODECOV"
+ ```
+
+## 03. Semantic Release, Git Commit Hook, Commitizen
+To better manage the versions and git commit, we are going to use following packages:
+ - [Semantic Release](https://github.com/semantic-release/semantic-release)
+ - [Commitizen](https://www.npmjs.com/package/commitizen)
+ - [GitHooks](https://github.com/gtramontina/ghooks)
+
+Add below script to package.json. It will help run the coverage test before any git commit. And only if the tests pass the minimum threshold, the coverage result will be uploaded to codecov and the commit will be successful.
+```
+"config": {
+  "ghooks": {
+    "pre-commit": "npm run test:cover && npm run check-coverage",
+    "post-commit": "npm run report-coverage",
+  }
+},
+```
+We'll also replace `git commit` command with `git-cz` which will use commitizen to structure the commit messages. To make it easy to remember, add `"commit": "git-cz",` to npm script.
+
+**Now when the dev process would be**:
+- Make changes
+- Add file to commit by `git add FILE`
+- Run `npm run commit`
+- Fill the commit type, scope, breaking changes, etc. Semantic Release will help manage the versions based on the changes. If there is any breaking changes, Semantic Release will bump the major version.
+- Ghooks will run the coverage test, and if the tests doesn't meet the minimum requirements on statements, function, branches, and lines, the commit will not be successful.
+- Once the commit is successful, we'll upload the coverage report to codecov for further analysis.
