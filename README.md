@@ -37,6 +37,7 @@ npm run storybook
 ```
 Here is a the article on how react cdk works by Arunoda Susiripala: [Say Hello to React CDK](https://voice.kadira.io/say-hello-to-react-cdk-97cff692e798#.uiw9ii6xf)
 Note you'll need to add 'webpack-hot-middleware' as devDependencies as it's missing from the package tempalte. I've opened a [PR](https://github.com/kadirahq/react-cdk/pull/20) and still waiting for it to be merged.
+![storybook](_writing/pic/01.Storybook.png)
 
 ## 02. Setup Coverage Reporting
 For coverage reporting, I use [Istanbul](https://github.com/gotwarlost/istanbul). Istanbul is a coverage tool that computes statement, line, function and branch coverage with module loader hooks to transparently add coverage when running tests. It supports all JS coverage use cases including unit tests, server side functional tests and browser tests
@@ -52,6 +53,7 @@ npm install codecov -D
 
 ```
  To be able to see the report at codecov, we'll need to push the repo to github first, then visit [https://codecov.io/gh/vidaaudrey/program-bdd-demo](https://codecov.io/gh/vidaaudrey/program-bdd-demo) to get the repository token (remember to change the repo name to yours).
+![codecov](_writing/pic/03.codecov.png)
 
  To store the token in the node env, run `export CODECOV-TOKEN=[your repo token]`, then add below script to package.json to upload the coverage report to codecov.
  ```
@@ -74,6 +76,7 @@ Add below script to package.json. It will help run the coverage test before any 
 },
 ```
 We'll also replace `git commit` command with `git-cz` which will use commitizen to structure the commit messages. To make it easy to remember, add `"commit": "git-cz",` to npm script.
+![codecov](_writing/pic/03.commitizen.png)
 
 **Now when the dev process would be**:
 - Make changes
@@ -179,3 +182,4 @@ npm run bdd
 
 ```
 You'll see the result.
+![BDD Setup](_writing/pic/05. BDDSetup.png)
