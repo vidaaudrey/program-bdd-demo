@@ -9,7 +9,7 @@ A demo app using storybook, cucumber.js, selenium, redux, relay and some other l
 The purpose of the demo app is to learn and find the best development patterns.
 
 - [NPM package](https://www.npmjs.com/package/program-bdd-demo)
-- [Component Library](https://vidaaudrey.github.io/progam-bdd-demo)
+- [Component Library](https://vidaaudrey.github.io/program-bdd-demo)
 
 
 ## Install
