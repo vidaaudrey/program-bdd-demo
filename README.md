@@ -83,7 +83,7 @@ We'll also replace `git commit` command with `git-cz` which will use commitizen 
 - Ghooks will run the coverage test, and if the tests doesn't meet the minimum requirements on statements, function, branches, and lines, the commit will not be successful.
 - Once the commit is successful, we'll upload the coverage report to codecov for further analysis.
 
-## 04. Use DotEnv to manage environment variables
+## 04. Use dotenv to manage environment variables
 As the project grows, we'll need a better strategy to manage the environment variables. [dotenv](https://www.npmjs.com/package/dotenv) is very good option for this purpose.  
 Add add below script to npm so we can setup the environment variable as early:
 ```
@@ -93,3 +93,89 @@ Now install the dotenv package:
 ```
 npm install dotenv -S
 ```
+
+## 05. BDD setup
+[Cucumber](https://github.com/cucumber/cucumber-js) is a tool for running automated tests written in plain language.
+Run
+```
+npm install cucumber -D
+npm install zombie -D
+```
+
+Write a feature
+```
+//features/app.feature
+Feature: Search Google
+  As a user, I want to user Google to search
+
+  Scenario: Visit Page
+    Given I am on Google home page
+    Then I should see "Google" as the page title
+
+  Scenario: Search By Keyword
+    Given I am on Google home page
+    When I input the keywords and start search
+    Then I should see the search results
+```
+
+Create a world where the feature will be running:
+```
+//features/support/world.js
+const Zombie = require('zombie');
+const browser = new Zombie();
+
+// browser, visit will be available in the step definition
+function World() {
+  this.browser = browser;
+
+  this.visit = function (url, callback) {
+    this.browser.visit(url, callback);
+  };
+}
+
+module.exports = function () {
+  this.World = World;
+};
+
+```
+
+Add the step definition
+```
+//features/step_definition/my_step_definitions.js
+const URL = 'http://google.com';
+
+const mySteps = function() {
+  this.Given(/^I am on Google home page$/, function(callback) {
+    return this.visit(URL, callback);
+  });
+
+  this.Then(/^I should see "(.*)" as the page title$/, function(title, callback) {
+    const pageTitle = this.browser.text('title');
+    if (title === pageTitle) {
+      callback();
+    } else {
+      callback(new Error("Expected to be on page with title " + title));
+    }
+  });
+
+  this.When(/^I input the keywords and start search$/, function(callback) {
+    this.browser.fill('q', 'coursera')
+      .pressButton('input[type=submit]', callback);
+  });
+
+  this.Then(/^I should see the search results$/, function(callback) {
+    this.browser.assert.success();
+    callback();
+  });
+};
+
+module.exports = mySteps;
+
+```
+
+To be able to run the cucumber-js from terminal, we'll also add `"bdd": "cucumber-js"` to the script of package.json, then run
+```
+npm run bdd
+
+```
+You'll see the result.
