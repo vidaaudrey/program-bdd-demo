@@ -1,5 +1,5 @@
 Feature: Search Google
-  As a user, I want to user Google to search
+  As a user, I want to use Google to search
 
   Scenario: Visit Page
     Given I am on Google home page
